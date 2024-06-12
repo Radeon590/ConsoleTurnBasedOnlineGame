@@ -1,12 +1,19 @@
 ﻿// init servers
+using GtaTestTask.Client;
+using GtaTestTask.Launcher;
 using GtaTestTask.Server;
 using GtaTestTask.WebApi;
 
-GtaServer server0 = new GtaServer("0");
-GtaServer server1 = new GtaServer("1");
-GtaServer server2 = new GtaServer("2");
-
-foreach (var item in GtaWebApi.Endpoints.ReadServers())
+for (int i = 0; i < 3; i++)
 {
-    Console.WriteLine(item.Name);
+    GtaServer.StartNewServer($"{i}");
 }
+
+// test server and users
+var testServer = GtaWebApi.Endpoints.ReadServer(0);
+for (int i = 1; i < 3; i++)
+{
+    new GtaClient(testServer, new PlayerAuthData($"player{i}", $"password{i}", "jwt"));
+}
+// launch 
+var client = new GtaLauncher().LaunchClient();

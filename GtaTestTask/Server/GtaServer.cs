@@ -16,5 +16,10 @@ namespace GtaTestTask.Server
             Name = serverName;
             GtaWebApi.Endpoints.ConnectServer(this);
         }
+
+        public static void StartNewServer(string serverName)
+        {
+            var server = new GtaServer(serverName);
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace GtaTestTask.WebApi
         #endregion
 
         private List<GtaServer> _servers = new List<GtaServer>();
+        private TemporaryDb _db = new TemporaryDb();
 
         public GtaWebApi() { }
 
@@ -56,9 +57,33 @@ namespace GtaTestTask.WebApi
             return _servers;
         }
 
+        public GtaServer ReadServer(int id)
+        {
+            return _servers[id];
+        }
+
         #endregion
 
-        public void Authorize()
+        public string Authorize(string username, string password)
+        {
+            if (_db.PlayerDbDatas.Where(p => p.Username == username && p.Password == password).Count() == 1)
+            {
+                return "jwt";
+            }
+            throw new Exception("user not found");
+        }
+
+        public string Registrate(string username, string password)
+        {
+            if (_db.PlayerDbDatas.Where(p => p.Username == username && p.Password == password).Count() == 0)
+            {
+                _db.PlayerDbDatas.Add(new Entities.PlayerDbData(username, password, 500));
+                return "jwt";
+            }
+            throw new Exception("user already exists");
+        }
+
+        public void IsAuthorized(string jwt)
         {
 
         }
