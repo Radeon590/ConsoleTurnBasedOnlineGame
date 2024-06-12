@@ -1,4 +1,5 @@
 ﻿using GtaTestTask.Server;
+using GtaTestTask.WebApi.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,6 +65,8 @@ namespace GtaTestTask.WebApi
 
         #endregion
 
+        #region Auth
+
         public string Authorize(string username, string password)
         {
             if (_db.PlayerDbDatas.Where(p => p.Username == username && p.Password == password).Count() == 1)
@@ -87,5 +90,21 @@ namespace GtaTestTask.WebApi
         {
 
         }
+
+        #endregion
+
+        #region User
+
+        public PlayerDbData ReadUser(string username)
+        {
+            PlayerDbData? player = _db.PlayerDbDatas.Where(p => p.Username == username).FirstOrDefault();
+            if (player == null)
+            {
+                throw new Exception("player not found");
+            }
+            return player;
+        }
+
+        #endregion
     }
 }
