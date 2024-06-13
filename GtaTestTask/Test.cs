@@ -95,30 +95,33 @@ namespace GtaTestTask
         {
             foreach(var bot in _botClients)
             {
-                if (Vector2.Distance(bot.Player.Position, _playerClient.Player.Position) <= 1)
+                if (bot.Player.Health > 0)
                 {
-                    bot.Attack(_playerClient.Username, 1);
+                    if (Vector2.Distance(bot.Player.Position, _playerClient.Player.Position) <= 1)
+                    {
+                        bot.Attack(_playerClient.Username, 1);
+                    }
+                    //
+                    int moveSide = new Random().Next(0, 4);
+                    Vector2 moveVector = Vector2.Zero;
+                    switch (moveSide)
+                    {
+                        case 0:
+                            moveVector = new Vector2(-1, 0);
+                            break;
+                        case 1:
+                            moveVector = new Vector2(1, 0);
+                            break;
+                        case 2:
+                            moveVector = new Vector2(0, -1);
+                            break;
+                        case 3:
+                            moveVector = new Vector2(0, 1);
+                            break;
+                        default: break;
+                    }
+                    bot.Move(moveVector);
                 }
-                //
-                int moveSide = new Random().Next(0, 4);
-                Vector2 moveVector = Vector2.Zero;
-                switch (moveSide)
-                {
-                    case 0:
-                        moveVector = new Vector2(-1, 0);
-                        break;
-                    case 1:
-                        moveVector = new Vector2(1, 0);
-                        break;
-                    case 2:
-                        moveVector = new Vector2(0, -1);
-                        break;
-                    case 3:
-                        moveVector = new Vector2(0, 1);
-                        break;
-                    default: break;
-                }
-                bot.Move(moveVector);
             }
         }
     }
