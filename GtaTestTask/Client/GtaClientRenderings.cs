@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace GtaTestTask.Client
 {
@@ -27,10 +28,13 @@ namespace GtaTestTask.Client
             Console.WriteLine($"HP: {WorldState.Players.Where(p => p.Username == Username).FirstOrDefault().Health}");
             RenderMap();
             Console.WriteLine();
-            ShowClosestPlayers();
-            ShowAvailableCommands();
-            // Command
-            ReadCommand();
+            if (Player.Health > 0)
+            {
+                ShowClosestPlayers();
+                ShowAvailableCommands();
+                // Command
+                ReadCommand();
+            }
         }
 
         private void RenderMap()
@@ -52,7 +56,14 @@ namespace GtaTestTask.Client
                             if (players.Where(p => p.Username == Username).Any())
                             {
                                 Player = players.First();
-                                Console.Write("X");
+                                if (Player.Health <= 0)
+                                {
+                                    Console.Write("=");
+                                }
+                                else
+                                {
+                                    Console.Write("X");
+                                }
                             }
                             else
                             {
