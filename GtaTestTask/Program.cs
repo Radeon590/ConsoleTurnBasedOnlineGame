@@ -9,7 +9,7 @@ using System.Numerics;
 
 //tests
 var test = new Test();
-test.ShowUi();
+test.Start();
 
 // launch
 //var client = new GtaLauncher().LaunchClient();

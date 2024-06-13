@@ -17,6 +17,8 @@ namespace GtaTestTask
     internal class Test
     {
         private GtaServer _server;
+        private GtaClient _playerClient;
+        private List<GtaClient> _botClients = new List<GtaClient>();
 
         public Test() 
         {
@@ -29,35 +31,88 @@ namespace GtaTestTask
             _server = GtaWebApi.Endpoints.ReadServer(0);
             for (int i = 1; i < 3; i++)
             {
-                new GtaClient(_server, new PlayerAuthData($"player{i}", $"password{i}", "jwt"));
+                _botClients.Add(new GtaClient(_server, new PlayerAuthData($"player{i}", $"password{i}", "jwt")));
             }
+
+            //
+            SetUpClients();
+            MoveEnemiesToPlayer();
+            Start();
         }
 
-        public void ShowUi()
+        public void SetUpClients()
         {
             PlayerAuthData playerAuthData = new PlayerAuthData("player3", "password3", "jwt");
-            var client = new GtaClient(_server, playerAuthData);
-            // move one enemy to main player
+            _playerClient = new GtaClient(_server, playerAuthData);
+            
+        }
+
+        private void MoveEnemiesToPlayer()
+        {
+            MoveEnemyToPlayer();
+            MoveEnemyToPlayer();
+        }
+
+        private void MoveEnemyToPlayer()
+        {
+            // move enemies to main player
             WorldState worldState = _server.ReadCurrentWorldState();
             Player player1 = worldState.Players[0];
             worldState.Players.RemoveAt(0);
 
             float newX;
-            if (client.Player.Position.X >= WorldConstants.MapBorderX - 1)
+            if (_playerClient.Player.Position.X >= WorldConstants.MapBorderX - 1)
             {
-                newX = client.Player.Position.X - 1;
+                newX = _playerClient.Player.Position.X - 1;
             }
             else
             {
-                newX = client.Player.Position.X + 1;
+                newX = _playerClient.Player.Position.X + 1;
             }
-            worldState.Players.Add(new Player(player1.Username, new Vector2(newX, client.Player.Position.Y), player1.Health));
+            worldState.Players.Add(new Player(player1.Username, new Vector2(newX, _playerClient.Player.Position.Y), player1.Health));
             _server.UpdateWorldState(worldState);
-            //
-            client.ShowUi();
-            Console.WriteLine("Please press any key");
-            Console.ReadKey();
-            client.ShowUi();
+        }
+
+        public void Start()
+        {
+            while (true)
+            {
+                _playerClient.ShowUi();
+                MoveBots();
+                Console.WriteLine("Please press any key");
+                Console.ReadKey();
+            }
+        }
+
+        public void MoveBots()
+        {
+            foreach(var bot in _botClients)
+            {
+                if (Vector2.Distance(bot.Player.Position, _playerClient.Player.Position) <= 1)
+                {
+                    bot.Attack(_playerClient.Username, 1);
+                }
+                //
+                int moveSide = new Random().Next(0, 4);
+                Vector2 moveVector = Vector2.Zero;
+                switch (moveSide)
+                {
+                    case 0:
+                        moveVector = new Vector2(-1, 0);
+                        break;
+                    case 1:
+                        moveVector = new Vector2(1, 0);
+                        break;
+                    case 2:
+                        moveVector = new Vector2(0, -1);
+                        break;
+                    case 3:
+                        moveVector = new Vector2(0, 1);
+                        break;
+                    default: break;
+                }
+                bot.Move(moveVector);
+            }
         }
     }
 }
