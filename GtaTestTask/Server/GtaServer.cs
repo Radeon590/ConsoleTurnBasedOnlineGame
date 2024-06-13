@@ -33,7 +33,7 @@ namespace GtaTestTask.Server
             _connectedClients.Add(client);
             //
             Random random = new Random();
-            Vector2 spawnPos = new Vector2(random.Next(0, 10), random.Next(0, 10));
+            Vector2 spawnPos = new Vector2(random.Next(0, WorldBorder.X), random.Next(0, WorldBorder.Y));
             int health = 10;
             Player newPlayer = new Player(client.Username, spawnPos, health);
             //
@@ -52,14 +52,27 @@ namespace GtaTestTask.Server
             {
                 if (ping < _minPing)
                 {
+                    client.WorldState = _host.WorldState;
+                    //
                     _minPing = ping;
                     _host = client;
                     isHost = true;
                 }
                 worldState = _host.WorldState;
+                worldState.Players.Add(newPlayer);
             }
 
             return (worldState, isHost);
+        }
+
+        public WorldState ReadCurrentWorldState()
+        {
+            return _host!.WorldState;
+        }
+
+        public void UpdateWorldState(WorldState updatedWorldState)
+        {
+            _host!.WorldState = updatedWorldState;
         }
     }
 }
