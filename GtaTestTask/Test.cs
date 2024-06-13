@@ -22,28 +22,35 @@ namespace GtaTestTask
 
         public Test() 
         {
-            for (int i = 0; i < 3; i++)
-            {
-                GtaServer.StartNewServer($"{i}");
-            }
-
-            // pass server and users for testing
-            _server = GtaWebApi.Endpoints.ReadServer(0);
-            for (int i = 1; i < 3; i++)
-            {
-                _botClients.Add(new GtaClient(_server, new PlayerAuthData($"player{i}", $"password{i}", "jwt")));
-            }
-
-            //
+            SetUpServers();
+            SetUpBotClients();
             SetUpClients();
             MoveEnemiesToPlayer();
             Start();
         }
 
+        private void SetUpServers()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                GtaServer.StartNewServer($"{i}");
+            }
+
+            _server = GtaWebApi.Endpoints.ReadServer(0);
+        }
+
+        private void SetUpBotClients()
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                _botClients.Add(new GtaClient(_server, new PlayerAuthData($"player{i}", $"password{i}", "jwt")));
+            }
+        }
+
         public void SetUpClients()
         {
             PlayerAuthData playerAuthData = new PlayerAuthData("player3", "password3", "jwt");
-            _playerClient = new GtaClient(_server, playerAuthData);
+            _playerClient = new GtaLauncher().LaunchClient();
             
         }
 
