@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GtaTestTask.Client
 {
-    internal struct WorldState
+    internal class WorldState
     {
         public List<Player> Players { get; set; }
 

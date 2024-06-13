@@ -105,6 +105,11 @@ namespace GtaTestTask.WebApi
             return player;
         }
 
+        public void UpdateUser(PlayerDbData playerDbData)
+        {
+            // нет необходимости что-то делать, т.к. при ReadUser уже передается ссылочный объект. в реальном апи надо было бы менять
+        }
+
         #endregion
     }
 }

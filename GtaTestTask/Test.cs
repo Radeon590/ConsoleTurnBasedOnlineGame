@@ -43,7 +43,7 @@ namespace GtaTestTask
             worldState.Players.RemoveAt(0);
 
             float newX;
-            if (client.Player.Position.X >= WorldBorder.X - 1)
+            if (client.Player.Position.X >= WorldConstants.MapBorderX - 1)
             {
                 newX = client.Player.Position.X - 1;
             }
@@ -54,6 +54,9 @@ namespace GtaTestTask
             worldState.Players.Add(new Player(player1.Username, new Vector2(newX, client.Player.Position.Y), player1.Health));
             _server.UpdateWorldState(worldState);
             //
+            client.ShowUi();
+            Console.WriteLine("Please press any key");
+            Console.ReadKey();
             client.ShowUi();
         }
     }

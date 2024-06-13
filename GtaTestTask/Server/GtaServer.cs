@@ -33,7 +33,7 @@ namespace GtaTestTask.Server
             _connectedClients.Add(client);
             //
             Random random = new Random();
-            Vector2 spawnPos = new Vector2(random.Next(0, WorldBorder.X), random.Next(0, WorldBorder.Y));
+            Vector2 spawnPos = new Vector2(random.Next(0, WorldConstants.MapBorderX), random.Next(0, WorldConstants.MapBorderY));
             int health = 10;
             Player newPlayer = new Player(client.Username, spawnPos, health);
             //

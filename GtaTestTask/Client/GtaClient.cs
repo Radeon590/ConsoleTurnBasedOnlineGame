@@ -21,6 +21,7 @@ namespace GtaTestTask.Client
 
         private Player? _player;
 
+        // TODO: во многом бесполезно, т.к. нельзя менять из-за struct. Возможно, лучше заменить на класс
         public Player Player 
         {
             get
@@ -29,7 +30,7 @@ namespace GtaTestTask.Client
                 {
                     _player = WorldState.Players.Where(p => p.Username == Username).First();
                 }
-                return _player.Value;
+                return _player;
             }
             set { _player = value; }
         }
@@ -48,9 +49,6 @@ namespace GtaTestTask.Client
             _isHost = connectionResult.Item2;
         }
 
-        private void ReadCommand()
-        {
-            
-        }
+        
     }
 }

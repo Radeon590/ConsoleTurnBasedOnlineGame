@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GtaTestTask.Client
 {
-    internal struct Player
+    internal class Player
     {
         public string Username { get; set; }
         public Vector2 Position {  get; set; }

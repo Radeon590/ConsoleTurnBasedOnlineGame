@@ -13,6 +13,8 @@ namespace GtaTestTask.Client
     {
         public void ShowUi()
         {
+            Console.Clear();
+            ResetAvailableCommandsBuilder();
             // Update Data
             PlayerDbData playerDbData = GtaWebApi.Endpoints.ReadUser(Username);
             if (!_isHost)
@@ -26,6 +28,7 @@ namespace GtaTestTask.Client
             RenderMap();
             Console.WriteLine();
             ShowClosestPlayers();
+            ShowAvailableCommands();
             // Command
             ReadCommand();
         }
@@ -33,11 +36,11 @@ namespace GtaTestTask.Client
         private void RenderMap()
         {
             Console.WriteLine("\nMap");
-            for (int y = -1; y < WorldBorder.Y + 1; y++)
+            for (int y = -1; y < WorldConstants.MapBorderY + 1; y++)
             {
-                for (int x = -1; x < WorldBorder.X + 1; x++)
+                for (int x = -1; x < WorldConstants.MapBorderX + 1; x++)
                 {
-                    if (x == -1 || x == WorldBorder.X || y == -1 || y == WorldBorder.Y)
+                    if (x == -1 || x == WorldConstants.MapBorderX || y == -1 || y == WorldConstants.MapBorderY)
                     {
                         Console.Write("#");
                     }
@@ -90,6 +93,10 @@ namespace GtaTestTask.Client
                         {
                             Console.Write("(dead) ");
                         }
+                        else
+                        {
+                            _availableCommandsBuilder.AddAttack(p.Username, 1);
+                        }
                     }
                 }
             }
@@ -100,6 +107,17 @@ namespace GtaTestTask.Client
             else
             {
                 Console.WriteLine();
+            }
+        }
+
+        private void ShowAvailableCommands()
+        {
+            Console.WriteLine();
+            Console.WriteLine("available commands:");
+            var commands = _availableCommandsBuilder.Build();
+            foreach (var command in commands) 
+            {
+                Console.WriteLine(command.CommandString);
             }
         }
     }
