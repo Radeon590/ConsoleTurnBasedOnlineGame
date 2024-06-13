@@ -26,11 +26,11 @@ namespace GtaTestTask.Client.Commands.Command
                 }
                 if ( _vector == new Vector2(0, -1))
                 {
-                    return "down";
+                    return "up";
                 }
                 if (_vector == new Vector2(0, 1))
                 {
-                    return "up";
+                    return "down";
                 }
                 return $"({_vector.X}, {_vector.Y})";
             }
