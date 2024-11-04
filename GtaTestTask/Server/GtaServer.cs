@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GtaTestTask.Server
 {
-    internal class GtaServer
+    internal partial class GtaServer
     {
         public string Name { get; private set; }
 
@@ -70,7 +70,7 @@ namespace GtaTestTask.Server
             return _host!.WorldState;
         }
 
-        public void UpdateWorldState(WorldState updatedWorldState)
+        private void UpdateWorldState(WorldState updatedWorldState)
         {
             _host!.WorldState = updatedWorldState;
         }

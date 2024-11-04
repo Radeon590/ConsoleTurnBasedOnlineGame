@@ -5,6 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using GtaTestTask.Server;
 
 namespace GtaTestTask.Client.Commands.Command
 {
@@ -38,14 +39,14 @@ namespace GtaTestTask.Client.Commands.Command
         
         private Vector2 _vector;
 
-        public MoveCommand(GtaClient client, Vector2 vector) : base(client)
+        public MoveCommand(GtaClient client, GtaServer server, Vector2 vector) : base(client, server)
         {
             _vector = vector;
         }
 
         public override void Execute()
         {
-            _client.Move(_vector);
+            _server.Move(_client.Username, _vector);
         }
     }
 }

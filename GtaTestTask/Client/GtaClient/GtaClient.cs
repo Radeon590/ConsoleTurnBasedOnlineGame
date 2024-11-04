@@ -19,7 +19,7 @@ namespace GtaTestTask.Client
             get; set;
         }
 
-        private Player? _player;
+        protected Player? _player;
 
         // TODO: во многом бесполезно, т.к. нельзя менять из-за struct. Возможно, лучше заменить на класс
         public Player Player 
@@ -35,10 +35,10 @@ namespace GtaTestTask.Client
             set { _player = value; }
         }
 
-        private bool _isHost;
+        protected bool _isHost;
 
-        private readonly GtaServer _server;
-        private PlayerAuthData _authData;
+        protected readonly GtaServer _server;
+        protected PlayerAuthData _authData;
 
         public GtaClient(GtaServer server, PlayerAuthData playerAuthData) 
         {

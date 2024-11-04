@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GtaTestTask.Server;
 
 namespace GtaTestTask.Client.Commands.Command
 {
@@ -13,7 +14,7 @@ namespace GtaTestTask.Client.Commands.Command
         private string _targetPlayer;
         private int _damage;
 
-        public AttackCommand(GtaClient client, string targetPlayer, int damage) : base(client)
+        public AttackCommand(GtaClient client, GtaServer server, string targetPlayer, int damage) : base(client, server)
         {
             _targetPlayer = targetPlayer;
             _damage = damage;
@@ -21,7 +22,7 @@ namespace GtaTestTask.Client.Commands.Command
 
         public override void Execute()
         {
-            _client.Attack(_targetPlayer, _damage);
+            _server.Attack(_client.Username, _targetPlayer, _damage);
         }
     }
 }
