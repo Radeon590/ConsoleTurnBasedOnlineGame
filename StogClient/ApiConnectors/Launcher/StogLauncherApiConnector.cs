@@ -109,6 +109,7 @@ namespace StogClient.WebApi
         private async Task<string> SetUpJwtToken(HttpResponseMessage httpResponseMessage)
         {
             var resultJwt = await httpResponseMessage.Content.ReadAsStringAsync();
+            resultJwt = resultJwt.Replace("\"", "");
             HttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + resultJwt);
             return resultJwt;
         }
