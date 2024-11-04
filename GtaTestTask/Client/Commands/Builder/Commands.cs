@@ -9,12 +9,5 @@ namespace GtaTestTask.Client.Commands
 {
     internal class Commands : List<Command.Command>
     {
-        public void Execute()
-        {
-            foreach (var command in this) 
-            {
-                command.Execute();
-            }
-        }
     }
 }
