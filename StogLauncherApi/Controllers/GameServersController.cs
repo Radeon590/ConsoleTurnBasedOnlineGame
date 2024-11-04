@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using StogLauncherApi.Entities;
 using StogLauncherApi.Services.GameServersPool;
 
@@ -22,12 +23,14 @@ public class GameServersController : ControllerBase
     }
 
     [HttpGet("ReadAll")]
+    [Authorize]
     public IResult ReadAllGameServers()
     {
         return Results.Json(_gameServersPool.GameServers);
     }
     
     [HttpGet("Read")]
+    [Authorize]
     public IResult ReadGameServer(string serverName)
     {
         return Results.Json(_gameServersPool.GameServers.Single(gs => gs.ServerName == serverName));
