@@ -8,8 +8,8 @@ using Newtonsoft.Json;
 using System.Numerics;
 
 //tests
-var test = new Test();
-test.Start();
+var test = new TestGameMachine();
+test.StartGame();
 
 // launch
 //var client = new GtaLauncher().LaunchClient();
