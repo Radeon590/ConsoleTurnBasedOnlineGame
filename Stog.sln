@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StogClient", "StogClient\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StogLauncherApi", "StogLauncherApi\StogLauncherApi.csproj", "{31C4F027-F933-4911-B0F3-48F46D2787A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StogShared", "StogShared\StogShared.csproj", "{B88082A9-6B9D-4902-BA94-BA5392FB19E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{31C4F027-F933-4911-B0F3-48F46D2787A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31C4F027-F933-4911-B0F3-48F46D2787A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31C4F027-F933-4911-B0F3-48F46D2787A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B88082A9-6B9D-4902-BA94-BA5392FB19E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B88082A9-6B9D-4902-BA94-BA5392FB19E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B88082A9-6B9D-4902-BA94-BA5392FB19E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B88082A9-6B9D-4902-BA94-BA5392FB19E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

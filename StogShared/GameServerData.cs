@@ -1,4 +1,4 @@
-﻿namespace StogLauncherApi.Entities;
+﻿namespace StogShared;
 
 public record struct GameServerData
 {

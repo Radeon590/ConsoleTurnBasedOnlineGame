@@ -2,6 +2,7 @@
 using StogClient.Client;
 using StogClient.Server;
 using StogClient.WebApi;
+using StogShared;
 
 namespace StogClient.Launcher
 {
@@ -37,22 +38,26 @@ namespace StogClient.Launcher
             }
             //
             Console.Clear();
-            List<GtaServer> gtaServers = StogLauncherApiConnector.Endpoints.ReadServers();
+            List<GameServerData> gtaServers = await StogLauncherApiConnector.Endpoints.ReadServers();
             Console.WriteLine("select server");
             foreach (var server in gtaServers)
             {
-                Console.WriteLine($"{server.Name}");
+                Console.WriteLine($"{server.ServerName}");
             }
             while (true)
             {
                 string serverName = Console.ReadLine();
-                GtaServer? server = gtaServers.Where(s => s.Name == serverName).FirstOrDefault();
+                GameServerData? server = gtaServers.FirstOrDefault(s => s.ServerName == serverName);
                 if (server == null)
                 {
                     Console.WriteLine("wrong server name");
                     continue;
                 }
-                return new GtaClient(server, playerAuthData);
+                var client = new GtaClient(server.Value, playerAuthData);
+                Console.WriteLine("GtaClient succesfully launched. Press any key to continue");
+                Console.WriteLine(JsonConvert.SerializeObject(server.Value));
+                Console.ReadKey();
+                return client;
             }
         }
 

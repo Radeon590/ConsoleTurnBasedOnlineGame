@@ -12,6 +12,7 @@ using StogClient.Client;
 using StogClient.Launcher;
 using StogClient.Server;
 using StogClient.WebApi;
+using StogShared;
 
 namespace StogClient
 {
@@ -43,7 +44,8 @@ namespace StogClient
         {
             for (int i = 1; i < 3; i++)
             {
-                _botClients.Add(new BotGtaClient(_playerClient, _server, new PlayerAuthData($"player{i}", $"password{i}", "jwt")));
+                //TODO: bots wont work
+                _botClients.Add(new BotGtaClient(_playerClient, new GameServerData(), new PlayerAuthData($"player{i}", $"password{i}", "jwt")));
             }
         }
 

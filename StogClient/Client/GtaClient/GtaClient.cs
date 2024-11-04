@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StogClient.Launcher;
 using StogClient.Server;
+using StogShared;
 
 namespace StogClient.Client
 {
@@ -38,15 +39,17 @@ namespace StogClient.Client
         protected bool _isHost;
 
         protected readonly GtaServer _server;
+        protected readonly GameServerData _gameServerData;
         protected PlayerAuthData _authData;
 
-        public GtaClient(GtaServer server, PlayerAuthData playerAuthData) 
+        public GtaClient(GameServerData serverData, PlayerAuthData playerAuthData) 
         {
-            _server = server;
+            //_server = server;
+            _gameServerData = serverData;
             _authData = playerAuthData;
-            var connectionResult = _server.ConnectPlayer(this, new Random().Next(1, 250));
+            /*var connectionResult = _server.ConnectPlayer(this, new Random().Next(1, 250));
             WorldState = connectionResult.Item1;
-            _isHost = connectionResult.Item2;
+            _isHost = connectionResult.Item2;*/
         }
 
         
