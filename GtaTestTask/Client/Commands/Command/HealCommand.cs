@@ -6,20 +6,15 @@ using System.Threading.Tasks;
 
 namespace GtaTestTask.Client.Commands.Command
 {
-    internal class HealCommand : ICommand
+    internal class HealCommand : Command
     {
-        public string CommandString => "heal";
+        public override string CommandString => "heal";
 
-        GtaClient ICommand.Client => _client;
-
-        private readonly GtaClient _client;
-
-        public HealCommand(GtaClient client) 
+        public HealCommand(GtaClient client) : base(client)
         {
-            _client = client;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             _client.Heal();
         }

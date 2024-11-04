@@ -6,24 +6,20 @@ using System.Threading.Tasks;
 
 namespace GtaTestTask.Client.Commands.Command
 {
-    internal class AttackCommand : ICommand
+    internal class AttackCommand : Command
     {
-        public string CommandString => $"attack {_targetPlayer}";
-
-        GtaClient ICommand.Client => _client;
-
-        private GtaClient _client;
+        public override string CommandString => $"attack {_targetPlayer}";
+        
         private string _targetPlayer;
         private int _damage;
 
-        public AttackCommand(GtaClient client, string targetPlayer, int damage)
+        public AttackCommand(GtaClient client, string targetPlayer, int damage) : base(client)
         {
-            _client = client;
             _targetPlayer = targetPlayer;
             _damage = damage;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             _client.Attack(_targetPlayer, _damage);
         }

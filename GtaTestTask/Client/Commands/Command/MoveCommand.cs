@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace GtaTestTask.Client.Commands.Command
 {
-    internal class MoveCommand : ICommand
+    internal class MoveCommand : Command
     {
-        public string CommandString => $"move {_moveSide}";
+        public override string CommandString => $"move {_moveSide}";
 
         private string _moveSide
         {
@@ -35,19 +35,15 @@ namespace GtaTestTask.Client.Commands.Command
                 return $"({_vector.X}, {_vector.Y})";
             }
         }
-
-        GtaClient ICommand.Client => _client;
-
-        private readonly GtaClient _client;
+        
         private Vector2 _vector;
 
-        public MoveCommand(GtaClient client, Vector2 vector)
+        public MoveCommand(GtaClient client, Vector2 vector) : base(client)
         {
-            _client = client;
             _vector = vector;
         }
 
-        public void Execute()
+        public override void Execute()
         {
             _client.Move(_vector);
         }

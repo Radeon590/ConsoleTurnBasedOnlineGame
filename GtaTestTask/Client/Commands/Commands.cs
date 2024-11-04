@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GtaTestTask.Client.Commands
 {
-    internal class Commands : List<ICommand>
+    internal class Commands : List<Command.Command>
     {
         public void Execute()
         {
