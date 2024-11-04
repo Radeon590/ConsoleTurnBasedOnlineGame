@@ -17,7 +17,7 @@ namespace StogClient.Client
             Console.Clear();
             ResetAvailableCommandsBuilder();
             // Update Data
-            PlayerDbData playerDbData = GtaWebApi.Endpoints.ReadUser(Username);
+            PlayerDbData playerDbData = StogLauncherApiConnector.Endpoints.ReadUser(Username);
             if (!_isHost)
             {
                 WorldState = _server.ReadCurrentWorldState();

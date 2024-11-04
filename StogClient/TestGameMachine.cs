@@ -21,10 +21,10 @@ namespace StogClient
         private GtaClient _playerClient;
         private List<BotGtaClient> _botClients = new List<BotGtaClient>();
 
-        public TestGameMachine() 
+        public async Task StartMachine()
         {
             SetUpServers();
-            SetUpClients();
+            await SetUpClients();
             SetUpBotClients();
             StartGame();
         }
@@ -36,7 +36,7 @@ namespace StogClient
                 GtaServer.StartNewServer($"{i}");
             }
 
-            _server = GtaWebApi.Endpoints.ReadServer(0);
+            _server = StogLauncherApiConnector.Endpoints.ReadServer(0);
         }
 
         private void SetUpBotClients()
@@ -47,9 +47,9 @@ namespace StogClient
             }
         }
 
-        public void SetUpClients()
+        public async Task SetUpClients()
         {
-            _playerClient = new GtaLauncher().LaunchClient();
+            _playerClient = await new GtaLauncher().LaunchClient();
         }
 
         public void StartGame()

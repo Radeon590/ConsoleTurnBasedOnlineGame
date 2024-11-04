@@ -20,7 +20,7 @@ namespace StogClient.Server
         public GtaServer(string serverName) 
         {
             Name = serverName;
-            GtaWebApi.Endpoints.ConnectServer(this);
+            StogLauncherApiConnector.Endpoints.ConnectServer(this);
         }
 
         public static void StartNewServer(string serverName)

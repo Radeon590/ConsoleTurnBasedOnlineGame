@@ -31,7 +31,7 @@ public class AuthorizationController
         {
             _applicationContext.Users.Add(new DbPlayer(username, password));
             await _applicationContext.SaveChangesAsync();
-            return Results.Ok();
+            return await Authorize(username, password);
         }
     }
     
@@ -58,7 +58,7 @@ public class AuthorizationController
         catch (InvalidOperationException e)
         {
             _logger.LogInformation("player {Username} {Password} wont be authorized because of exception: {EMessage}", username, password, e.Message);
-            return Results.NotFound();
+            return Results.NotFound("Username or password is invalid");
         }
     }
 }

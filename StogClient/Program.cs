@@ -9,7 +9,7 @@ using System.Numerics;
 
 //tests
 var test = new TestGameMachine();
-test.StartGame();
+await test.StartMachine();
 
 // launch
 //var client = new GtaLauncher().LaunchClient();

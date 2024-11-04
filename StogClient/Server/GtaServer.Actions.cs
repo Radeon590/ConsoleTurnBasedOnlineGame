@@ -58,13 +58,13 @@ internal partial class GtaServer
     {
         var worldState = ReadCurrentWorldState();
         var player = worldState.Players.Single(p => p.Username == targetPlayerUsername);
-        var playerDbData = GtaWebApi.Endpoints.ReadUser(targetPlayerUsername);
+        var playerDbData = StogLauncherApiConnector.Endpoints.ReadUser(targetPlayerUsername);
         if (playerDbData.Coins >= 100)
         {
             player.Health = WorldConstants.MaxHP;
             UpdateWorldState(worldState);
             playerDbData.Coins -= 100;
-            GtaWebApi.Endpoints.UpdateUser(playerDbData);
+            StogLauncherApiConnector.Endpoints.UpdateUser(playerDbData);
             Console.WriteLine($"{targetPlayerUsername} healed");
         }
         else

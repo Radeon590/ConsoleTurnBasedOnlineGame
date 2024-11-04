@@ -1,9 +1,4 @@
-﻿using StogClient.WebApi.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 using StogClient.Client;
 using StogClient.Server;
 using StogClient.WebApi;
@@ -12,7 +7,9 @@ namespace StogClient.Launcher
 {
     internal class GtaLauncher
     {
-        public GtaClient LaunchClient() 
+        public HttpClient Client { get; set; }
+        
+        public async Task<GtaClient> LaunchClient() 
         {
             Console.Clear();
             Console.WriteLine("start launcher");
@@ -23,23 +20,24 @@ namespace StogClient.Launcher
                 string command = Console.ReadLine();
                 if (command == "a")
                 {
-                    playerAuthData = Authorize();
+                    playerAuthData = await Authorize();
                 }
                 else if (command == "r")
                 {
-                    playerAuthData = Registrate();
+                    playerAuthData = await Registrate();
                 }
                 else
                 {
                     Console.WriteLine("wrong command");
                     continue;
                 }
-                Console.WriteLine("succesfully authorized");
+                Console.WriteLine("succesfully authorized. Press any key to continue");
+                Console.ReadKey();
                 break;
             }
             //
             Console.Clear();
-            List<GtaServer> gtaServers = GtaWebApi.Endpoints.ReadServers();
+            List<GtaServer> gtaServers = StogLauncherApiConnector.Endpoints.ReadServers();
             Console.WriteLine("select server");
             foreach (var server in gtaServers)
             {
@@ -58,7 +56,7 @@ namespace StogClient.Launcher
             }
         }
 
-        private PlayerAuthData Authorize()
+        private async Task<PlayerAuthData> Authorize()
         {
             while (true)
             {
@@ -67,7 +65,7 @@ namespace StogClient.Launcher
                 string password = ReadLine("password");
                 try
                 {
-                    string jwt =  GtaWebApi.Endpoints.Authorize(username, password);
+                    string jwt =  await StogLauncherApiConnector.Endpoints.Authorize(username, password);
                     return new PlayerAuthData(username, password, jwt);
                 }
                 catch (Exception ex)
@@ -77,7 +75,7 @@ namespace StogClient.Launcher
             }
         }
 
-        private PlayerAuthData Registrate()
+        private async Task<PlayerAuthData> Registrate()
         {
             while (true)
             {
@@ -86,7 +84,7 @@ namespace StogClient.Launcher
                 string password = ReadLine("password");
                 try
                 {
-                    string jwt = GtaWebApi.Endpoints.Registrate(username, password);
+                    string jwt = await StogLauncherApiConnector.Endpoints.Registrate(username, password);
                     return new PlayerAuthData(username, password, jwt);
                 }
                 catch (Exception ex)

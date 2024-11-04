@@ -3,24 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using StogClient.ApiConnectors.Base;
 using StogClient.Server;
 using StogClient.WebApi.Entities;
 
 namespace StogClient.WebApi
 {
-    internal class GtaWebApi
+    internal class StogLauncherApiConnector : StogApiConnector
     {
         #region Singleton
 
-        private static GtaWebApi? s_endpoints;
+        private static StogLauncherApiConnector? s_endpoints;
 
-        public static GtaWebApi Endpoints
+        public static StogLauncherApiConnector Endpoints
         {
             get
             {
                 if (s_endpoints is null)
                 {
-                    s_endpoints = new GtaWebApi();
+                    s_endpoints = new StogLauncherApiConnector();
                 }
                 return s_endpoints;
             }
@@ -29,9 +30,11 @@ namespace StogClient.WebApi
         #endregion
 
         private List<GtaServer> _servers = new List<GtaServer>();
-        private TemporaryDb _db = new TemporaryDb();
 
-        public GtaWebApi() { }
+        public StogLauncherApiConnector()
+        {
+            
+        }
 
         #region Server
 
@@ -67,28 +70,24 @@ namespace StogClient.WebApi
 
         #region Auth
 
-        public string Authorize(string username, string password)
+        public async Task<string> Authorize(string username, string password)
         {
-            if (_db.PlayerDbDatas.Where(p => p.Username == username && p.Password == password).Count() == 1)
+            var result = await HttpClient.GetAsync($"{BaseUrl}/Authorize?username={username}&password={password}");
+            if (result.IsSuccessStatusCode)
             {
-                return "jwt";
+                return await result.Content.ReadAsStringAsync();
             }
-            throw new Exception("user not found");
+            throw new Exception(await result.Content.ReadAsStringAsync());
         }
 
-        public string Registrate(string username, string password)
+        public async Task<string> Registrate(string username, string password)
         {
-            if (_db.PlayerDbDatas.Where(p => p.Username == username && p.Password == password).Count() == 0)
+            var result = await HttpClient.PostAsync($"{BaseUrl}/Register?username={username}&password={password}", null);
+            if (result.IsSuccessStatusCode)
             {
-                _db.PlayerDbDatas.Add(new Entities.PlayerDbData(username, password, 500));
-                return "jwt";
+                return await result.Content.ReadAsStringAsync();
             }
-            throw new Exception("user already exists");
-        }
-
-        public void IsAuthorized(string jwt)
-        {
-
+            throw new Exception(await result.Content.ReadAsStringAsync());
         }
 
         #endregion
@@ -97,12 +96,13 @@ namespace StogClient.WebApi
 
         public PlayerDbData ReadUser(string username)
         {
-            PlayerDbData? player = _db.PlayerDbDatas.Where(p => p.Username == username).FirstOrDefault();
+            /*PlayerDbData? player = _db.PlayerDbDatas.Where(p => p.Username == username).FirstOrDefault();
             if (player == null)
             {
                 throw new Exception("player not found");
             }
-            return player;
+            return player;*/
+            return null;
         }
 
         public void UpdateUser(PlayerDbData playerDbData)
