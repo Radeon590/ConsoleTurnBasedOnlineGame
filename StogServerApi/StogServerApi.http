@@ -1,0 +1,6 @@
+@StogServerApi_HostAddress = http://localhost:5266
+
+GET {{StogServerApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
