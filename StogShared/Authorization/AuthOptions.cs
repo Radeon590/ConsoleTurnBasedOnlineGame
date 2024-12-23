@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace StogLauncherApi;
+namespace StogShared.Authorization;
 
 public class AuthOptions
 {

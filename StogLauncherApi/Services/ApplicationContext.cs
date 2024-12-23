@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using StogLauncherApi.Entities;
+using StogShared.Entities;
 
 namespace StogLauncherApi;
 

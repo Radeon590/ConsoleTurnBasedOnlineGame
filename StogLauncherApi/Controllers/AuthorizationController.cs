@@ -1,14 +1,17 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using StogLauncherApi.Authorization;
-using StogLauncherApi.Entities;
+using StogShared.Authorization;
+using StogShared.Entities;
 
 namespace StogLauncherApi.Controllers;
 
-public class AuthorizationController
+[ApiController]
+[Route("[controller]")]
+public class AuthorizationController : ControllerBase
 {
     private ApplicationContext _applicationContext;
     private ILogger _logger;
@@ -39,7 +42,7 @@ public class AuthorizationController
     [Route("Authorize")]
     public async Task<IResult> Authorize(string username, string password)
     {
-
+        _logger.LogInformation("Authorizing user {Username}", username);
         try
         {
             var user = await _applicationContext.Users.SingleAsync(
@@ -60,5 +63,13 @@ public class AuthorizationController
             _logger.LogInformation("player {Username} {Password} wont be authorized because of exception: {EMessage}", username, password, e.Message);
             return Results.NotFound("Username or password is invalid");
         }
+    }
+    
+    [HttpGet]
+    [Route("ValidateJwt")]
+    [Authorize]
+    public IResult ValidateJwt()
+    {
+        return Results.Ok();
     }
 }

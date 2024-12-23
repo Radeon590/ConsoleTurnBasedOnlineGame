@@ -1,4 +1,4 @@
-﻿namespace StogLauncherApi.Authorization;
+﻿namespace StogShared.Authorization;
 
 public class AuthRoles
 {

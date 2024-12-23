@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using StogLauncherApi.Entities;
 using StogLauncherApi.Services.GameServersPool;
 using StogShared;
+using StogShared.Entities;
 
 namespace StogLauncherApi.Controllers;
 

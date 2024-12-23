@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using StogLauncherApi;
 using StogLauncherApi.Services.GameServersPool;
+using StogShared.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 

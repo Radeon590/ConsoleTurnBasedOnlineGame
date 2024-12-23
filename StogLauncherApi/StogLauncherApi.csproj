@@ -17,4 +17,8 @@
       <ProjectReference Include="..\StogShared\StogShared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Entities\" />
+    </ItemGroup>
+
 </Project>

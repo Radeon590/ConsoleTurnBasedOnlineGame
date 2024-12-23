@@ -1,5 +1,5 @@
-﻿using StogLauncherApi.Entities;
-using StogShared;
+﻿using StogShared;
+using StogShared.Entities;
 
 namespace StogLauncherApi.Services.GameServersPool;
 
