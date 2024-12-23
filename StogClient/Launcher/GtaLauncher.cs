@@ -3,6 +3,7 @@ using StogClient.Client;
 using StogClient.Server;
 using StogClient.WebApi;
 using StogShared;
+using StogShared.Entities;
 
 namespace StogClient.Launcher
 {
@@ -53,9 +54,9 @@ namespace StogClient.Launcher
                     Console.WriteLine("wrong server name");
                     continue;
                 }
-                var client = new GtaClient(server.Value, playerAuthData);
+                var client = new GtaClient(server, playerAuthData);
                 Console.WriteLine("GtaClient succesfully launched. Press any key to continue");
-                Console.WriteLine(JsonConvert.SerializeObject(server.Value));
+                Console.WriteLine(JsonConvert.SerializeObject(server));
                 Console.ReadKey();
                 return client;
             }
@@ -75,7 +76,7 @@ namespace StogClient.Launcher
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"{ex.Message}");
+                    Console.WriteLine($"authorization exception {ex.Message}");
                 }
             }
         }
@@ -94,7 +95,7 @@ namespace StogClient.Launcher
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"{ex.Message}");
+                    Console.WriteLine($"registration exception: {ex.Message}");
                 }
             }
         }

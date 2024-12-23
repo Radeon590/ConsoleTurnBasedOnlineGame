@@ -2,29 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using StogClient.WebApi;
-using StogClient.WebApi.Entities;
+using StogShared.Entities.GameWorld;
 
 namespace StogClient.Client
 {
     internal partial class GtaClient
     {
-        public void ShowUi()
+        private void ShowUi()
         {
             Console.Clear();
             ResetAvailableCommandsBuilder();
-            // Update Data
-            PlayerDbData playerDbData = StogLauncherApiConnector.Endpoints.ReadUser(Username);
-            if (!_isHost)
-            {
-                WorldState = _server.ReadCurrentWorldState();
-            }
             // Show data
             Console.WriteLine($"Username: {Username}");
-            Console.WriteLine($"Coins: {playerDbData.Coins}");
+            Console.WriteLine($"Coins: {Player.Coins}");
             Console.WriteLine($"HP: {WorldState.Players.Where(p => p.Username == Username).FirstOrDefault().Health}");
             RenderMap();
             Console.WriteLine();

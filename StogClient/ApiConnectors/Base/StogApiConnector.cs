@@ -15,19 +15,6 @@ public abstract class StogApiConnector
             return _httpClient;
         }
     }
-    
-    private string? _baseUrl;
 
-    protected string BaseUrl
-    {
-        get
-        {
-            if (_baseUrl == null)
-            {
-                _baseUrl = StogApiConnectorUrls.GetApiConnectorUrl(this.GetType().Name);
-            }
-
-            return _baseUrl;
-        }
-    }
+    protected abstract string BaseUrl { get; }
 }

@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using StogClient.Server;
+using StogShared.Entities;
 
 namespace StogClient.Client.Commands.Command
 {
@@ -39,14 +40,14 @@ namespace StogClient.Client.Commands.Command
         
         private Vector2 _vector;
 
-        public MoveCommand(GtaClient client, GtaServer server, Vector2 vector) : base(client, server)
+        public MoveCommand(GtaClient client, GameServerData server, Vector2 vector) : base(client, server)
         {
             _vector = vector;
         }
 
         public override void Execute()
         {
-            _server.Move(_client.Username, _vector);
+            //_server.Move(_client.Username, _vector);
         }
     }
 }

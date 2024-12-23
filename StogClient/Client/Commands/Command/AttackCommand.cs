@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StogClient.Server;
+using StogShared.Entities;
 
 namespace StogClient.Client.Commands.Command
 {
@@ -14,7 +15,7 @@ namespace StogClient.Client.Commands.Command
         private string _targetPlayer;
         private int _damage;
 
-        public AttackCommand(GtaClient client, GtaServer server, string targetPlayer, int damage) : base(client, server)
+        public AttackCommand(GtaClient client, GameServerData server, string targetPlayer, int damage) : base(client, server)
         {
             _targetPlayer = targetPlayer;
             _damage = damage;
@@ -22,7 +23,7 @@ namespace StogClient.Client.Commands.Command
 
         public override void Execute()
         {
-            _server.Attack(_client.Username, _targetPlayer, _damage);
+            //_server.Attack(_client.Username, _targetPlayer, _damage);
         }
     }
 }

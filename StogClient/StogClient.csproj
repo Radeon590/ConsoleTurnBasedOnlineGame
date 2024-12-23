@@ -12,4 +12,9 @@
     <ProjectReference Include="..\StogShared\StogShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ApiConnectors\Entities\" />
+    <Folder Include="Client\Entities\" />
+  </ItemGroup>
+
 </Project>

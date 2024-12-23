@@ -1,20 +1,14 @@
-﻿using StogClient.WebApi;
-using StogClient.WebApi.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using StogClient.WebApi;
 using StogClient.Launcher;
-using StogClient.Server;
-using StogShared;
+using StogShared.Entities;
+using StogShared.Entities.GameWorld;
 
 namespace StogClient.Client
 {
     internal partial class GtaClient
     {
-        public string Username => _authData.Username;
+        public string Username => LauncherAuthData.Username;
         public WorldState WorldState
         {
             get; set;
@@ -29,29 +23,52 @@ namespace StogClient.Client
             {
                 if (_player == null)
                 {
+                    Console.WriteLine(JsonConvert.SerializeObject(WorldState));
+                    Console.WriteLine(Username);
                     _player = WorldState.Players.Where(p => p.Username == Username).First();
                 }
                 return _player;
             }
             set { _player = value; }
         }
+        
+        protected readonly GameServerData GameServerData;
+        protected PlayerAuthData LauncherAuthData;
+        protected string ServerJwt;
 
-        protected bool _isHost;
-
-        protected readonly GtaServer _server;
-        protected readonly GameServerData _gameServerData;
-        protected PlayerAuthData _authData;
-
-        public GtaClient(GameServerData serverData, PlayerAuthData playerAuthData) 
+        public GtaClient(GameServerData serverData, PlayerAuthData playerLauncherAuthData) 
         {
-            //_server = server;
-            _gameServerData = serverData;
-            _authData = playerAuthData;
-            /*var connectionResult = _server.ConnectPlayer(this, new Random().Next(1, 250));
-            WorldState = connectionResult.Item1;
-            _isHost = connectionResult.Item2;*/
+            GameServerData = serverData;
+            LauncherAuthData = playerLauncherAuthData;
         }
 
-        
+        public async Task StartGame()
+        {
+            await ConnectToServer();
+            await StartGameLoop();
+        }
+
+        private async Task ConnectToServer()
+        {
+            var connectionResult = await StogServerApiConnector.ConnectToGameServer(GameServerData.ServerConnectionString, LauncherAuthData.Jwt);
+            WorldState = connectionResult.WorldState;
+            ServerJwt = connectionResult.Jwt;
+        }
+
+        private async Task StartGameLoop()
+        {
+            while (true)
+            {
+                ShowUi();
+                Console.WriteLine("Please press any key");
+                Console.ReadKey();
+                await UpdateWorldState();
+            }
+        }
+
+        private async Task UpdateWorldState()
+        {
+            WorldState = await StogServerApiConnector.GetWorldState(GameServerData.ServerConnectionString, ServerJwt);
+        }
     }
 }

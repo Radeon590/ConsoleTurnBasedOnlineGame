@@ -13,6 +13,7 @@ using StogClient.Launcher;
 using StogClient.Server;
 using StogClient.WebApi;
 using StogShared;
+using StogShared.Entities;
 
 namespace StogClient
 {
@@ -58,7 +59,7 @@ namespace StogClient
         {
             while (true)
             {
-                _playerClient.ShowUi();
+                //_playerClient.ShowUi();
                 MoveBots();
                 Console.WriteLine("Please press any key");
                 Console.ReadKey();

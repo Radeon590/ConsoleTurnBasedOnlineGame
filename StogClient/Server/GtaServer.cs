@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StogClient.Client;
 using StogClient.WebApi;
+using StogShared.Entities.GameWorld;
 
 namespace StogClient.Server
 {
@@ -28,7 +29,7 @@ namespace StogClient.Server
             var server = new GtaServer(serverName);
         }
 
-        public (WorldState, bool) ConnectPlayer(GtaClient client, int ping)
+        /*public (WorldState, bool) ConnectPlayer(GtaClient client, int ping)
         {
             _connectedClients.Add(client);
             //
@@ -63,7 +64,7 @@ namespace StogClient.Server
             }
 
             return (worldState, isHost);
-        }
+        }*/
 
         public WorldState ReadCurrentWorldState()
         {

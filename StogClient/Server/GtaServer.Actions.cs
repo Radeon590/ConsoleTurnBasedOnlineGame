@@ -54,7 +54,7 @@ internal partial class GtaServer
         }
     }
     
-    public void Heal(string targetPlayerUsername)
+    /*public void Heal(string targetPlayerUsername)
     {
         var worldState = ReadCurrentWorldState();
         var player = worldState.Players.Single(p => p.Username == targetPlayerUsername);
@@ -71,5 +71,5 @@ internal partial class GtaServer
         {
             Console.WriteLine($"{targetPlayerUsername} not enough coins");
         }
-    }
+    }*/
 }

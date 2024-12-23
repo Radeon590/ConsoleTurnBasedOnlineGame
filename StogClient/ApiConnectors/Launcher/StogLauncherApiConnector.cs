@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StogClient.ApiConnectors.Base;
 using StogClient.Server;
-using StogClient.WebApi.Entities;
 using StogShared;
+using StogShared.Entities;
 
 namespace StogClient.WebApi
 {
     internal class StogLauncherApiConnector : StogApiConnector
     {
+        protected override string BaseUrl => "http://localhost:5153";
+        
         #region Singleton
 
         private static StogLauncherApiConnector? s_endpoints;
@@ -88,22 +90,22 @@ namespace StogClient.WebApi
 
         public async Task<string> Authorize(string username, string password)
         {
-            var result = await HttpClient.GetAsync($"{BaseUrl}/Authorize?username={username}&password={password}");
+            var result = await HttpClient.GetAsync($"{BaseUrl}/Authorization/Authorize?username={username}&password={password}");
             if (result.IsSuccessStatusCode)
             {
                 return await SetUpJwtToken(result);
             }
-            throw new Exception(await result.Content.ReadAsStringAsync());
+            throw new Exception($"{result.StatusCode} {await result.Content.ReadAsStringAsync()}");
         }
 
         public async Task<string> Registrate(string username, string password)
         {
-            var result = await HttpClient.PostAsync($"{BaseUrl}/Register?username={username}&password={password}", null);
+            var result = await HttpClient.PostAsync($"{BaseUrl}/Authorization/Register?username={username}&password={password}", null);
             if (result.IsSuccessStatusCode)
             {
                 return await SetUpJwtToken(result);
             }
-            throw new Exception(await result.Content.ReadAsStringAsync());
+            throw new Exception($"{result.StatusCode} {await result.Content.ReadAsStringAsync()}");
         }
 
         private async Task<string> SetUpJwtToken(HttpResponseMessage httpResponseMessage)
@@ -112,26 +114,6 @@ namespace StogClient.WebApi
             resultJwt = resultJwt.Replace("\"", "");
             HttpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + resultJwt);
             return resultJwt;
-        }
-
-        #endregion
-
-        #region User
-
-        public PlayerDbData ReadUser(string username)
-        {
-            /*PlayerDbData? player = _db.PlayerDbDatas.Where(p => p.Username == username).FirstOrDefault();
-            if (player == null)
-            {
-                throw new Exception("player not found");
-            }
-            return player;*/
-            return null;
-        }
-
-        public void UpdateUser(PlayerDbData playerDbData)
-        {
-            // нет необходимости что-то делать, т.к. при ReadUser уже передается ссылочный объект. в реальном апи надо было бы менять
         }
 
         #endregion

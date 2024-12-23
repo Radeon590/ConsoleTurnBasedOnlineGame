@@ -3,6 +3,7 @@ using StogClient.Client;
 using StogClient.Launcher;
 using StogClient.Server;
 using StogShared;
+using StogShared.Entities;
 
 namespace StogClient.BotsClient;
 
@@ -10,7 +11,7 @@ internal class BotGtaClient : GtaClient
 {
     private GtaClient _targetPlayerClient;
     
-    public BotGtaClient(GtaClient targetPlayerClient, GameServerData server, PlayerAuthData playerAuthData) : base(server, playerAuthData)
+    public BotGtaClient(GtaClient targetPlayerClient, GameServerData server, PlayerAuthData playerLauncherAuthData) : base(server, playerLauncherAuthData)
     {
         _targetPlayerClient = targetPlayerClient;
     }
@@ -48,11 +49,11 @@ internal class BotGtaClient : GtaClient
 
     public void Attack(int damage)
     {
-        _server.Attack(Player.Username, _targetPlayerClient.Username, damage);
+        //_server.Attack(Player.Username, _targetPlayerClient.Username, damage);
     }
 
     public void Move(Vector2 vector)
     {
-        _server.Move(Player.Username, vector);
+        //_server.Move(Player.Username, vector);
     }
 }

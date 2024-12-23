@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using StogClient.Client.Commands.Command;
 using StogClient.Server;
+using StogShared.Entities;
 
 namespace StogClient.Client.Commands
 {
@@ -13,9 +14,9 @@ namespace StogClient.Client.Commands
     {
         private Commands _commands;
         private GtaClient _client;
-        private GtaServer _server;
+        private GameServerData _server;
 
-        public CommandsBuilder(GtaClient client, GtaServer server)
+        public CommandsBuilder(GtaClient client, GameServerData server)
         {
             _client = client;
             _server = server;
