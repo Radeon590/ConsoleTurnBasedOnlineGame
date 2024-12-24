@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StogShared", "StogShared\St
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StogServerApi", "StogServerApi\StogServerApi.csproj", "{21854E8E-4603-4DDC-8536-BBF8E7DB1CD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StogChatApi", "StogChatApi\StogChatApi.csproj", "{4AF3A5F2-B4BA-4165-9BB8-BC561F7D44E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StogChatClient", "StogChatClient\StogChatClient.csproj", "{D90492EE-6971-41D7-8D10-64F1C5D26E36}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{21854E8E-4603-4DDC-8536-BBF8E7DB1CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21854E8E-4603-4DDC-8536-BBF8E7DB1CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21854E8E-4603-4DDC-8536-BBF8E7DB1CD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AF3A5F2-B4BA-4165-9BB8-BC561F7D44E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AF3A5F2-B4BA-4165-9BB8-BC561F7D44E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AF3A5F2-B4BA-4165-9BB8-BC561F7D44E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AF3A5F2-B4BA-4165-9BB8-BC561F7D44E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D90492EE-6971-41D7-8D10-64F1C5D26E36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D90492EE-6971-41D7-8D10-64F1C5D26E36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D90492EE-6971-41D7-8D10-64F1C5D26E36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D90492EE-6971-41D7-8D10-64F1C5D26E36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
