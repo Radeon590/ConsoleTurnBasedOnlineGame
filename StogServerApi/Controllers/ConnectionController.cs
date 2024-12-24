@@ -52,8 +52,13 @@ public class ConnectionController : ControllerBase
             _logger.LogInformation($"Failed to read user from json");
             return Results.StatusCode(400);
         }
-        
-        _worldState.Players.Add(new Player(dbPlayer));
+
+        var player = new Player(dbPlayer);
+        _worldState.Players.Add(player);
+        if (_worldState.CurrentPlayer is null)
+        {
+            _worldState.CurrentPlayer = player;
+        }
         
         var claims = new List<Claim> {new Claim(ClaimTypes.Name, dbPlayer.Username) };
         // создаем JWT-токен
@@ -69,8 +74,6 @@ public class ConnectionController : ControllerBase
             WorldState = _worldState,
             Jwt = new JwtSecurityTokenHandler().WriteToken(jwt)
         };
-        
-        _logger.LogInformation($"Send connectionResult {JsonConvert.SerializeObject(connectionResult)}");
         
         return Results.Text(JsonConvert.SerializeObject(connectionResult));
     }

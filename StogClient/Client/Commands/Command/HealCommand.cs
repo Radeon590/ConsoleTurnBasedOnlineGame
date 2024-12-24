@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StogClient.Server;
+using StogClient.WebApi;
 using StogShared.Entities;
 
 namespace StogClient.Client.Commands.Command
@@ -16,9 +17,9 @@ namespace StogClient.Client.Commands.Command
         {
         }
 
-        public override void Execute()
+        public override async Task<string> Execute()
         {
-            //_server.Heal(_client.Username);
+            return await StogServerApiConnector.Heal(_server, _client.Player.Username);
         }
     }
 }

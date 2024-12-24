@@ -24,6 +24,10 @@ namespace StogClient.Client.Commands.Command
             _server = server;
         }
 
-        public abstract void Execute();
+        /// <summary>
+        /// executes this command
+        /// </summary>
+        /// <returns>execution result in string format</returns>
+        public abstract Task<string> Execute();
     }
 }

@@ -12,7 +12,7 @@ public class DbPlayer
     {
         Username = username;
         Password = password;
-        Coins = 1000;
-        Health = 100;
+        Coins = WorldConstants.DefaultCoins;
+        Health = WorldConstants.MaxHP;
     }
 }

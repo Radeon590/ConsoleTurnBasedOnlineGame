@@ -25,23 +25,23 @@ namespace StogClient.Client
             _availableCommandsBuilder.AddHeal();
         }
 
-        private void ReadCommand()
+        private async Task ReadCommand()
         {
             Console.WriteLine();
             Console.WriteLine("enter command");
             string? commandString = Console.ReadLine();
             if (commandString != null) 
             {
-                ExecuteCommand(commandString);
+                await ExecuteCommand(commandString);
             }
         }
 
-        protected void ExecuteCommand(string commandString)
+        protected async Task ExecuteCommand(string commandString)
         {
             var command = _availableCommandsBuilder.Build().Where(c => c.CommandString == commandString).FirstOrDefault();
             if (command != null) 
             {
-                ExecuteCommand(command);
+                await ExecuteCommand(command);
             }
             else 
             {
@@ -49,9 +49,10 @@ namespace StogClient.Client
             }
         }
 
-        protected void ExecuteCommand(Command command)
+        protected async Task ExecuteCommand(Command command)
         {
-            command.Execute();
+            var result = await command.Execute();
+            ShowCommandExecutionResult(result);
         }
     }
 }

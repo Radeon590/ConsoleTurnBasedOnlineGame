@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Newtonsoft.Json;
+using StogShared;
 using StogShared.Entities.GameWorld;
 
 namespace StogClient.Client
 {
     internal partial class GtaClient
     {
-        private void ShowUi()
+        private async Task ShowUi()
         {
             Console.Clear();
             ResetAvailableCommandsBuilder();
@@ -20,10 +22,11 @@ namespace StogClient.Client
             Console.WriteLine();
             if (Player.Health > 0)
             {
+                ShowLastAction();
                 ShowClosestPlayers();
                 ShowAvailableCommands();
                 // Command
-                ReadCommand();
+                await ReadCommand();
             }
         }
 
@@ -45,7 +48,6 @@ namespace StogClient.Client
                         {
                             if (players.Where(p => p.Username == Username).Any())
                             {
-                                Player = players.First();
                                 if (Player.Health <= 0)
                                 {
                                     Console.Write("=");
@@ -111,6 +113,20 @@ namespace StogClient.Client
             }
         }
 
+        private void ShowLastAction()
+        {
+            if (Player.LastActions.Any())
+            {
+                return;
+            }
+            Console.WriteLine();
+            Console.WriteLine("Last actions:");
+            foreach (var lastAction in Player.LastActions)
+            {
+                Console.WriteLine($"\t{lastAction}");
+            }
+        }
+
         private void ShowAvailableCommands()
         {
             Console.WriteLine();
@@ -120,6 +136,12 @@ namespace StogClient.Client
             {
                 Console.WriteLine(command.CommandString);
             }
+        }
+
+        private void ShowCommandExecutionResult(string result)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Command execution result: {result}");
         }
     }
 }

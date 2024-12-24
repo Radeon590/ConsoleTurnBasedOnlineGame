@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using StogClient.Server;
+using StogClient.WebApi;
 using StogShared.Entities;
 
 namespace StogClient.Client.Commands.Command
@@ -45,9 +46,10 @@ namespace StogClient.Client.Commands.Command
             _vector = vector;
         }
 
-        public override void Execute()
+        public override async Task<string> Execute()
         {
-            //_server.Move(_client.Username, _vector);
+            Console.WriteLine($"move {_vector} execution");
+            return await StogServerApiConnector.Move(_server, _client.Player.Username, _vector);
         }
     }
 }

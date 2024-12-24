@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Numerics;
 using Newtonsoft.Json;
 using StogClient.ApiConnectors.Base;
 using StogShared.Entities;
@@ -25,26 +26,69 @@ public class StogServerApiConnector : StogApiConnector
         {
             throw new Exception($"Unable to deserialize ServerConnectionResult: {httpResult.StatusCode}");
         }
-        
+
         return result;
     }
-    
+
     public static async Task<WorldState> GetWorldState(string connectionString, string jwt)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, $"{connectionString}/WorldState/Read");
-        request.Headers.Add("Authorization", "Bearer " + jwt);
-        var readUserResult = await HttpClient.SendAsync(request);
-        if (!readUserResult.IsSuccessStatusCode)
+        var readWorldStateResult = await SendAuthorizedRequest(HttpMethod.Get,
+            $"{connectionString}/WorldState/Read",
+            jwt);
+        if (!readWorldStateResult.IsSuccessStatusCode)
         {
-            throw new HttpRequestException($"Unable to read world state from server {connectionString}: {readUserResult.StatusCode}");
+            throw new HttpRequestException(
+                $"Unable to read world state from server {connectionString}: {readWorldStateResult.StatusCode}");
         }
 
-        var result = await readUserResult.Content.ReadFromJsonAsync<WorldState>();
+        var resultContent = await readWorldStateResult.Content.ReadAsStringAsync();
+        WorldState? result = JsonConvert.DeserializeObject<WorldState>(resultContent);
         if (result == null)
         {
-            throw new Exception($"Unable to deserialize WorldState from server {connectionString}: {readUserResult.StatusCode}");
+            throw new Exception(
+                $"Unable to deserialize WorldState from server {connectionString}: {readWorldStateResult.StatusCode}");
         }
-        
+
         return result;
+    }
+
+    public static async Task<string> Attack(GameServerData serverData, 
+        string sourcePlayerUsername, 
+        string targetPlayerUsername, 
+        int damage)
+    {
+        string requestString = $"{serverData.ServerConnectionString}/Actions/Attack?sourcePlayerUsername={sourcePlayerUsername}&targetPlayerUsername={targetPlayerUsername}&damage={damage}";
+        return await SendActionRequest(requestString, serverData);
+    }
+    
+    public static async Task<string> Move(GameServerData serverData, 
+        string username, 
+        Vector2 vector)
+    {
+        string requestString = $"{serverData.ServerConnectionString}/Actions/Move?username={username}&x={vector.X}&y={vector.Y}";
+        return await SendActionRequest(requestString, serverData);
+    }
+    
+    public static async Task<string> Heal(GameServerData serverData, 
+        string targetPlayerUsername)
+    {
+        string requestString = $"{serverData.ServerConnectionString}/Actions/Heal?targetPlayerUsername={targetPlayerUsername}";
+        return await SendActionRequest(requestString, serverData);
+    }
+
+    private static async Task<string> SendActionRequest(string requestString, GameServerData serverData, HttpContent? content = null)
+    {
+        var result = await SendAuthorizedRequest(HttpMethod.Patch, requestString, serverData.Jwt, content);
+        return await result.Content.ReadAsStringAsync();
+    }
+
+    private static async Task<HttpResponseMessage> SendAuthorizedRequest(HttpMethod method, string requestString,
+        string jwt, HttpContent? content = null)
+    {
+        using var request = new HttpRequestMessage(method, requestString);
+        request.Headers.Add("Authorization", "Bearer " + jwt);
+        if (content != null)
+            request.Content = content; 
+        return await HttpClient.SendAsync(request);
     }
 }

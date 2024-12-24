@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using StogClient.Server;
+using StogClient.WebApi;
 using StogShared.Entities;
 
 namespace StogClient.Client.Commands.Command
@@ -21,9 +22,9 @@ namespace StogClient.Client.Commands.Command
             _damage = damage;
         }
 
-        public override void Execute()
+        public override async Task<string> Execute()
         {
-            //_server.Attack(_client.Username, _targetPlayer, _damage);
+            return await StogServerApiConnector.Attack(_server, _client.Player.Username, _targetPlayer, _damage);
         }
     }
 }

@@ -6,6 +6,7 @@ namespace StogShared.Entities.GameWorld
     {
         public string Username => DbData.Username;
         public Vector2 Position {  get; set; }
+        public List<string> LastActions { get; set; }
 
         public int Coins
         {
@@ -23,6 +24,12 @@ namespace StogShared.Entities.GameWorld
         {
             DbData = dbData;
             Position = new Vector2(0, 0);
+            LastActions = new List<string>();
+        }
+
+        public void CleanLastActions()
+        {
+            LastActions = new List<string>();
         }
     }
 }

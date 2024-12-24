@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using StogClient.Client;
 using StogClient.WebApi;
+using StogShared;
 
 namespace StogClient.Server;
 

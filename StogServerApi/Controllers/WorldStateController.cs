@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using StogShared.Entities.GameWorld;
 
 namespace StogServerApi.Controllers;
@@ -22,6 +23,6 @@ public class WorldStateController : ControllerBase
     [Authorize]
     public async Task<IResult> Read()
     {
-        return Results.Json(_worldState);
+        return Results.Text(JsonConvert.SerializeObject(_worldState), "application/json");
     }
 }

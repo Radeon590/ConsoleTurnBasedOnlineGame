@@ -9,32 +9,19 @@ namespace StogClient.Client
     internal partial class GtaClient
     {
         public string Username => LauncherAuthData.Username;
-        public WorldState WorldState
-        {
-            get; set;
-        }
-
-        protected Player? _player;
+        public WorldState WorldState;
 
         // TODO: во многом бесполезно, т.к. нельзя менять из-за struct. Возможно, лучше заменить на класс
         public Player Player 
         {
             get
             {
-                if (_player == null)
-                {
-                    Console.WriteLine(JsonConvert.SerializeObject(WorldState));
-                    Console.WriteLine(Username);
-                    _player = WorldState.Players.Where(p => p.Username == Username).First();
-                }
-                return _player;
+                return WorldState.Players.Where(p => p.Username == Username).First();
             }
-            set { _player = value; }
         }
         
         protected readonly GameServerData GameServerData;
         protected PlayerAuthData LauncherAuthData;
-        protected string ServerJwt;
 
         public GtaClient(GameServerData serverData, PlayerAuthData playerLauncherAuthData) 
         {
@@ -52,14 +39,14 @@ namespace StogClient.Client
         {
             var connectionResult = await StogServerApiConnector.ConnectToGameServer(GameServerData.ServerConnectionString, LauncherAuthData.Jwt);
             WorldState = connectionResult.WorldState;
-            ServerJwt = connectionResult.Jwt;
+            GameServerData.Jwt = connectionResult.Jwt;
         }
 
         private async Task StartGameLoop()
         {
             while (true)
             {
-                ShowUi();
+                await ShowUi();
                 Console.WriteLine("Please press any key");
                 Console.ReadKey();
                 await UpdateWorldState();
@@ -68,7 +55,7 @@ namespace StogClient.Client
 
         private async Task UpdateWorldState()
         {
-            WorldState = await StogServerApiConnector.GetWorldState(GameServerData.ServerConnectionString, ServerJwt);
+            WorldState = await StogServerApiConnector.GetWorldState(GameServerData.ServerConnectionString, GameServerData.Jwt);
         }
     }
 }
