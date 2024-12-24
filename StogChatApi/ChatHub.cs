@@ -2,7 +2,6 @@
 
 namespace StogChatApi;
 
-// Хаб для SignalR
 public class ChatHub : Hub
 {
     public async Task SendMessage(string user, string message)
