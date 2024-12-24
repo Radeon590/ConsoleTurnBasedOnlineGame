@@ -3,12 +3,18 @@
     public class WorldState
     {
         public List<Player> Players { get; set; }
-        public Player? CurrentPlayer { get; set; }
+        public string? CurrentPlayerUsername { get; set; }
+
+        public Player? CurrentPlayer
+        {
+            get => Players.SingleOrDefault(p => p.Username == CurrentPlayerUsername);
+            set => CurrentPlayerUsername = value?.Username;
+        }
 
         public WorldState() 
         {
             Players = new List<Player>();
-            CurrentPlayer = null;
+            CurrentPlayerUsername = null;
         }
 
         public WorldState(List<Player> players)
@@ -22,6 +28,16 @@
             {
                 player.LastActions.Add(action);
             }
+        }
+
+        public void NextPlayer()
+        {
+            int nextPlayerIndex = Players.IndexOf(CurrentPlayer) + 1;
+            if (nextPlayerIndex >= Players.Count)
+            {
+                nextPlayerIndex = 0;
+            }
+            CurrentPlayer = Players[nextPlayerIndex];
         }
     }
 }

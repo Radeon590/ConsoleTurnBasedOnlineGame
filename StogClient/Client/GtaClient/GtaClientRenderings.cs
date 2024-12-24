@@ -15,6 +15,7 @@ namespace StogClient.Client
             Console.Clear();
             ResetAvailableCommandsBuilder();
             // Show data
+            Console.WriteLine("===============================");
             Console.WriteLine($"Username: {Username}");
             Console.WriteLine($"Coins: {Player.Coins}");
             Console.WriteLine($"HP: {WorldState.Players.Where(p => p.Username == Username).FirstOrDefault().Health}");
@@ -22,11 +23,9 @@ namespace StogClient.Client
             Console.WriteLine();
             if (Player.Health > 0)
             {
-                ShowLastAction();
+                //ShowLastAction();
                 ShowClosestPlayers();
-                ShowAvailableCommands();
-                // Command
-                await ReadCommand();
+                await ShowAvailableCommands();
             }
         }
 
@@ -127,14 +126,24 @@ namespace StogClient.Client
             }
         }
 
-        private void ShowAvailableCommands()
+        private async Task ShowAvailableCommands()
         {
             Console.WriteLine();
-            Console.WriteLine("available commands:");
-            var commands = _availableCommandsBuilder.Build();
-            foreach (var command in commands) 
+            if (WorldState.CurrentPlayerUsername == Username)
             {
-                Console.WriteLine(command.CommandString);
+                Console.WriteLine("Your turn. Available commands:");
+                var commands = _availableCommandsBuilder.Build();
+                foreach (var command in commands) 
+                {
+                    Console.WriteLine(command.CommandString);
+                }
+            
+                // Command
+                await ReadCommand();
+            }
+            else
+            {
+                Console.WriteLine($"Now its turn of player: {WorldState.CurrentPlayerUsername}");
             }
         }
 

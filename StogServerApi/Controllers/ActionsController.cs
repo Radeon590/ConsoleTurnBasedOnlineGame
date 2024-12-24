@@ -25,6 +25,11 @@ public class ActionsController : ControllerBase
     [Authorize]
     public IResult Attack(string sourcePlayerUsername, string targetPlayerUsername, int damage)
     {
+        if (_worldState.CurrentPlayerUsername != sourcePlayerUsername)
+        {
+            return Results.Forbid();
+        }
+        
         var sourcePlayer = _worldState.Players.Single(p => p.Username == sourcePlayerUsername);
         var player = _worldState.Players.Single(p => p.Username == targetPlayerUsername);
         string actionResult = $"{sourcePlayerUsername} attacks {targetPlayerUsername}";
@@ -37,8 +42,10 @@ public class ActionsController : ControllerBase
             player.Health -= damage;
         }
 
+        _worldState.NextPlayer();
         _worldState.AddLastAction(actionResult);
         sourcePlayer.CleanLastActions();
+        
         return Results.Text(actionResult);
     }
     
@@ -47,6 +54,11 @@ public class ActionsController : ControllerBase
     [Authorize]
     public IResult Move(string username, float x, float y)
     {
+        if (_worldState.CurrentPlayerUsername != username)
+        {
+            return Results.Forbid();
+        }
+        
         Vector2 vector = new Vector2(x, y);
         _logger.LogInformation($"{username} moves {JsonConvert.SerializeObject(vector)}");
         var player = _worldState.Players.Single(p => p.Username == username);
@@ -74,9 +86,11 @@ public class ActionsController : ControllerBase
             player.Position = player.Position with { Y = WorldConstants.MapBorderY - 1 };
         }
 
+        _worldState.NextPlayer();
         string actionResult = $"{username} moved";
         _worldState.AddLastAction(actionResult);
         player.CleanLastActions();
+        
         return Results.Text(actionResult);
     }
     
@@ -85,6 +99,11 @@ public class ActionsController : ControllerBase
     [Authorize]
     public IResult Heal(string targetPlayerUsername)
     {
+        if (_worldState.CurrentPlayerUsername != targetPlayerUsername)
+        {
+            return Results.Forbid();
+        }
+        
         var player = _worldState.Players.Single(p => p.Username == targetPlayerUsername);
         string actionResult;
         if (player.Coins >= 100)
@@ -98,9 +117,10 @@ public class ActionsController : ControllerBase
             actionResult = $"{targetPlayerUsername} tried to heal but have not enough coins";
         }
         
-        
+        _worldState.NextPlayer();
         _worldState.AddLastAction(actionResult);
         player.CleanLastActions();
+        
         return Results.Text(actionResult);
     }
 }

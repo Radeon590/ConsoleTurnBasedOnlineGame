@@ -18,11 +18,14 @@ namespace StogClient.Client
         private void ResetAvailableCommandsBuilder()
         {
             _availableCommandsBuilder = new CommandsBuilder(this, GameServerData);
-            _availableCommandsBuilder.AddMove(new Vector2(-1, 0));
-            _availableCommandsBuilder.AddMove(new Vector2(1, 0));
-            _availableCommandsBuilder.AddMove(new Vector2(0, -1));
-            _availableCommandsBuilder.AddMove(new Vector2(0, 1));
-            _availableCommandsBuilder.AddHeal();
+            if (WorldState.CurrentPlayerUsername == Username)
+            {
+                _availableCommandsBuilder.AddMove(new Vector2(-1, 0));
+                _availableCommandsBuilder.AddMove(new Vector2(1, 0));
+                _availableCommandsBuilder.AddMove(new Vector2(0, -1));
+                _availableCommandsBuilder.AddMove(new Vector2(0, 1));
+                _availableCommandsBuilder.AddHeal();
+            }
         }
 
         private async Task ReadCommand()

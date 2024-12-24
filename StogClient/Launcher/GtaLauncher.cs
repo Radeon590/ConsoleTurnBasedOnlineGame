@@ -56,7 +56,6 @@ namespace StogClient.Launcher
                 }
                 var client = new GtaClient(server, playerAuthData);
                 Console.WriteLine("GtaClient succesfully launched. Press any key to continue");
-                Console.WriteLine(JsonConvert.SerializeObject(server));
                 Console.ReadKey();
                 return client;
             }

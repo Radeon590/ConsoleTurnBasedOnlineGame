@@ -55,7 +55,7 @@ public class ConnectionController : ControllerBase
 
         var player = new Player(dbPlayer);
         _worldState.Players.Add(player);
-        if (_worldState.CurrentPlayer is null)
+        if (_worldState.CurrentPlayerUsername is null)
         {
             _worldState.CurrentPlayer = player;
         }

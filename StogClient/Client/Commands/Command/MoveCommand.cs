@@ -48,7 +48,6 @@ namespace StogClient.Client.Commands.Command
 
         public override async Task<string> Execute()
         {
-            Console.WriteLine($"move {_vector} execution");
             return await StogServerApiConnector.Move(_server, _client.Player.Username, _vector);
         }
     }
